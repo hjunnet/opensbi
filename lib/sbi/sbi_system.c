@@ -17,6 +17,7 @@
 #include <sbi/sbi_system.h>
 #include <sbi/sbi_ipi.h>
 #include <sbi/sbi_init.h>
+#include <sbi/sbi_timer.h> // XXX
 
 static SBI_LIST_HEAD(reset_devices_list);
 
@@ -123,6 +124,8 @@ static int __sbi_system_suspend_default(u32 sleep_type)
 {
 	if (sleep_type > SBI_SUSP_SLEEP_TYPE_LAST)
 		return SBI_EINVAL;
+
+	sbi_timer_mdelay(3000);
 
 	/* Wait for interrupt */
 	wfi();
