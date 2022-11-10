@@ -17,6 +17,7 @@
 #include <sbi/sbi_hart.h>
 #include <sbi/sbi_hartmask.h>
 #include <sbi/sbi_hsm.h>
+#include <sbi/sbi_psm.h>
 #include <sbi/sbi_ipi.h>
 #include <sbi/sbi_irqchip.h>
 #include <sbi/sbi_platform.h>
@@ -259,6 +260,10 @@ static void __noreturn init_coldboot(struct sbi_scratch *scratch, u32 hartid)
 	if (rc)
 		sbi_hart_hang();
 
+	rc = sbi_psm_init(scratch, hartid, TRUE);
+	if (rc)
+		sbi_hart_hang();
+
 	rc = sbi_platform_early_init(plat, TRUE);
 	if (rc)
 		sbi_hart_hang();
@@ -365,6 +370,10 @@ static void init_warm_startup(struct sbi_scratch *scratch, u32 hartid)
 		sbi_hart_hang();
 
 	rc = sbi_hsm_init(scratch, hartid, FALSE);
+	if (rc)
+		sbi_hart_hang();
+
+	rc = sbi_psm_init(scratch, hartid, FALSE);
 	if (rc)
 		sbi_hart_hang();
 

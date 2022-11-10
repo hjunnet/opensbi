@@ -27,6 +27,7 @@
 #define SBI_EXT_IPI				0x735049
 #define SBI_EXT_RFENCE				0x52464E43
 #define SBI_EXT_HSM				0x48534D
+#define SBI_EXT_PSM				0x50534D
 #define SBI_EXT_SRST				0x53525354
 #define SBI_EXT_PMU				0x504D55
 
@@ -80,6 +81,10 @@
 						 SBI_HSM_SUSP_PLAT_BASE)
 #define SBI_HSM_SUSPEND_NON_RET_LAST		(SBI_HSM_SUSP_NON_RET_BIT | \
 						 SBI_HSM_SUSP_BASE_MASK)
+
+/* SBI function IDs for PSM extension */
+#define SBI_EXT_PSM_CPC_READ_FFH			0x0
+#define SBI_EXT_PSM_CPC_WRITE_FFH			0x1
 
 /* SBI function IDs for SRST extension */
 #define SBI_EXT_SRST_RESET			0x0
