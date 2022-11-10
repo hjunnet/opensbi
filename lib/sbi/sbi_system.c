@@ -108,10 +108,26 @@ void sbi_system_suspend_set_device(struct sbi_system_suspend_device *dev)
 	suspend_dev = dev;
 }
 
+bool sbi_system_suspend_have_default(u32 sleep_type)
+{
+	return sleep_type == SBI_SUSP_SLEEP_TYPE_SUSPEND;
+}
+
 bool sbi_system_suspend_supported(u32 sleep_type)
 {
 	return suspend_dev && suspend_dev->system_suspend_check &&
 	       suspend_dev->system_suspend_check(sleep_type);
+}
+
+static int __sbi_system_suspend_default(u32 sleep_type)
+{
+	if (sleep_type > SBI_SUSP_SLEEP_TYPE_LAST)
+		return SBI_EINVAL;
+
+	/* Wait for interrupt */
+	wfi();
+
+	return 0;
 }
 
 int sbi_system_suspend(u32 sleep_type, ulong resume_addr, ulong opaque)
@@ -159,6 +175,8 @@ int sbi_system_suspend(u32 sleep_type, ulong resume_addr, ulong opaque)
 			ret = suspend_dev->system_suspend(sleep_type);
 		else
 			ret = SBI_EFAIL;
+	} else if (sbi_system_suspend_have_default(sleep_type)) {
+		ret = __sbi_system_suspend_default(sleep_type);
 	} else {
 		ret = SBI_ENOTSUPP;
 	}

@@ -32,7 +32,8 @@ static int sbi_ecall_susp_probe(unsigned long extid, unsigned long *out_val)
 	 * platform for the SBI SUSP extension to be usable.
 	 */
 	for (type = 0; type <= SBI_SUSP_SLEEP_TYPE_LAST; type++) {
-		if (sbi_system_suspend_supported(type))
+		if (sbi_system_suspend_supported(type) ||
+		    sbi_system_suspend_have_default(type))
 			count++;
 	}
 

@@ -58,6 +58,7 @@ struct sbi_system_suspend_device {
 const struct sbi_system_suspend_device *sbi_system_suspend_get_device(void);
 void sbi_system_suspend_set_device(struct sbi_system_suspend_device *dev);
 bool sbi_system_suspend_supported(u32 sleep_type);
+bool sbi_system_suspend_have_default(u32 sleep_type);
 int sbi_system_suspend(u32 sleep_type, ulong resume_addr, ulong opaque);
 
 #endif
