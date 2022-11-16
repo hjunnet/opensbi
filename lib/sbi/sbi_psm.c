@@ -70,7 +70,12 @@ int sbi_psm_cpc_read_ffh(unsigned long reg, unsigned long *val)
 			*val = sbi_timer_value();
 			break;
 		case 0xC:
-			*val = csr_read(CSR_MCYCLE);
+			/* Ideally we should use CSR_MCYCLE here
+			 * but can't emulate in qemu using cycle csr
+			 * so, let's use mtime
+			 */
+			//*val = csr_read(CSR_MCYCLE);
+			*val = cppc->desired_perf ? sbi_timer_value() : sbi_timer_value() * cppc->desired_perf;
 			break;
 		case 0xD:
 			*val = cppc->perf_limited;
