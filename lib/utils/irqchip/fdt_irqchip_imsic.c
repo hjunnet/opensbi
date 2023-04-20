@@ -78,13 +78,13 @@ static int irqchip_imsic_cold_init(void *fdt, int nodeoff,
 		return 0;
 	}
 
-	rc = irqchip_imsic_update_hartid_table(fdt, nodeoff, id);
+	rc = imsic_cold_irqchip_init(id);
 	if (rc) {
 		sbi_free(id);
 		return rc;
 	}
 
-	rc = imsic_cold_irqchip_init(id);
+	rc = irqchip_imsic_update_hartid_table(fdt, nodeoff, id);
 	if (rc) {
 		sbi_free(id);
 		return rc;
